@@ -44,9 +44,9 @@ public:
 
 	//Design Question
 	//
-	//Why do we mark acquire [[nudiscard]] and noexcept?
+	//Why do we mark acquire [[nodiscard]] and noexcept?
 	//
-	T* acquire() noexcept
+	[[nodiscard]] T* acquire() noexcept
 	{
 		if (m_free_indices.empty())
 		{
