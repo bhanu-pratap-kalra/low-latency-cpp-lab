@@ -69,15 +69,21 @@ public:
 	{
 		const std::size_t index = findIndexOf(object);
 
-		//Why do we track, if index is currently in use?
-		//What could happen, if the same object is released twice?
+		// Why do we track, if index is currently in use?
+		// What could happen, if the same object is released twice?
 		if (!m_in_use[index])
 		{
 			throw std::logic_error("MemoryPool: object has already been released");
 		}
 		
-		//Why dont we call object.reset() here like BigObject?
-		//How will we reset or clean the object here?
+		// Why dont we call object.reset() here like BigObject?
+		// How will we reset or clean the object here?
+		// The object remains alive.
+		//
+		// Stage 2 deliberately does not know how a generic T
+		// should be reset or cleaned.
+		//
+		// Object lifetime management is introduced in Stage 3.
 		m_in_use[index] = false;
 		m_free_indices.push_back(index);
 	}

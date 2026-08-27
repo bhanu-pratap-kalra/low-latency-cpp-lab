@@ -1,7 +1,8 @@
 BUILD_DIR := build
-BUILD_TYPE ?= Debug
 
-.PHONY: all build run clean rebuild help
+BUILD_TYPE ?= Release
+
+.PHONY: all configure build run run-example run-benchmark clean rebuild help
 
 all: build
 
@@ -11,8 +12,13 @@ configure:
 build: configure
 	cmake --build $(BUILD_DIR)
 
-run: build
-	./$(BUILD_DIR)/big_object_pool_example
+run: run-example
+
+run-example: build
+	./$(BUILD_DIR)/BigObjectMemoryPoolSimpleExample
+
+run-benchmark: build
+	./$(BUILD_DIR)/BigObjectMemoryPoolBenchmark
 
 clean:
 	cmake -E remove_directory $(BUILD_DIR)
@@ -20,9 +26,15 @@ clean:
 rebuild: clean build
 
 help:
-	@echo " Available commands:"
-	@echo " make                    Configure and build"
-	@echo " make run                Build and run the example"
-	@echo " make clean              Remove generated build files"
-	@echo " make rebuild            Clean and rebuild"
-	@echo " make BUILD_TYPE=Release Release build"
+	@echo "Available commands:"
+	@echo ""
+	@echo "make                         Configure and build in Release mode"
+	@echo "make run                     Build and run the simple example"
+	@echo "make run-example             Build and run the simple example"
+	@echo "make run-benchmark           Build and run the benchmark"
+	@echo "make BUILD_TYPE=Debug        Build in Debug mode"
+	@echo "make run BUILD_TYPE=Debug    Run the example in Debug mode"
+	@echo "make run-benchmark BUILD_TYPE=Debug"
+	@echo "                             Run benchmark in Debug mode"
+	@echo "make clean                   Remove generated build files"
+	@echo "make rebuild                 Clean and rebuild"
